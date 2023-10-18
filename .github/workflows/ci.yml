@@ -1,0 +1,105 @@
+name: Test or Release
+
+on:
+  push:
+    branches:
+      - master
+    tags-ignore:
+      - '**'
+    paths-ignore:
+      - '**/*.md'
+      - LICENSE
+  pull_request:
+
+jobs:
+
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v4
+    - name: Simulate test archives
+      shell: bash
+      run: |
+        cp LICENSE LICENSE-linux-x64.zip
+        cp LICENSE LICENSE-macos-x64.zip
+        cp LICENSE LICENSE-windows-x64.zip
+    - name: Store Linux test archive
+      uses: actions/cache/save@v3
+      with:
+        path: LICENSE-linux-x64.zip
+        key: LICENSE-linux-x64.zip-${{ github.sha }}
+    - name: Store macOS test archive
+      uses: actions/cache/save@v3
+      with:
+        path: LICENSE-macos-x64.zip
+        key: LICENSE-macos-x64.zip-${{ github.sha }}
+    - name: Store Windows test archive
+      uses: actions/cache/save@v3
+      with:
+        path: LICENSE-windows-x64.zip
+        key: LICENSE-windows-x64.zip-${{ github.sha }}
+
+  test:
+    needs:
+      - prepare
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v4
+    - name: Restore Linux archive
+      uses: actions/cache/restore@v3
+      with:
+        path: LICENSE-linux-x64.zip
+        key: LICENSE-linux-x64.zip-${{ github.sha }}
+        fail-on-cache-miss: true
+        enableCrossOsArchive: true
+    - name: Restore macOS archive
+      uses: actions/cache/restore@v3
+      with:
+        path: LICENSE-macos-x64.zip
+        key: LICENSE-macos-x64.zip-${{ github.sha }}
+        fail-on-cache-miss: true
+        enableCrossOsArchive: true
+    - name: Restore Windows archive
+      uses: actions/cache/restore@v3
+      with:
+        path: LICENSE-windows-x64.zip
+        key: LICENSE-windows-x64.zip-${{ github.sha }}
+        fail-on-cache-miss: true
+        enableCrossOsArchive: true
+    - name: Check archives
+      shell: bash
+      run: |
+        if [ ! -f "LICENSE-linux-x64.zip" ]; then
+          echo "LICENSE-linux-x64.zip does not exist"
+          exit 1
+        fi
+        if [ ! -f "LICENSE-macos-x64.zip" ]; then
+          echo "LICENSE-macos-x64.zip does not exist"
+          exit 1
+        fi
+        if [ ! -f "LICENSE-windows-x64.zip" ]; then
+          echo "LICENSE-windows-x64.zip does not exist"
+          exit 1
+        fi
+    - name: Clear archives
+      shell: bash
+      run: rm LICENSE-linux-x64.zip LICENSE-macos-x64.zip LICENSE-windows-x64.zip
+    - name: Test defaults
+      uses: ./
+    - name: Check archives
+      shell: bash
+      run: |
+        if [ -f "LICENSE-linux-x64.zip" ]; then
+          echo "LICENSE-linux-x64.zip exists"
+          exit 1
+        fi
+        if [ -f "LICENSE-macos-x64.zip" ]; then
+          echo "LICENSE-macos-x64.zip exists"
+          exit 1
+        fi
+        if [ -f "LICENSE-windows-x64.zip" ]; then
+          echo "LICENSE-windows-x64.zip exists"
+          exit 1
+        fi
