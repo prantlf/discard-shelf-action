@@ -1,5 +1,11 @@
 # Changes
 
+# [2.1.0](https://github.com/prantlf/discard-shelf-action/compare/v2.0.0...v2.1.0) (2023-10-21)
+
+## Features
+
+* Add inputs for choosing the platfoms to unshelve ([7fff944](https://github.com/prantlf/discard-shelf-action/commit/7fff94408b91d2c433956c3349c246463f6c7b0d))
+
 # [2.0.0](https://github.com/prantlf/discard-shelf-action/compare/v1.1.0...v2.0.0) (2023-10-21)
 
 ## Chores
