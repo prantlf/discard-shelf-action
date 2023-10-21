@@ -1,5 +1,11 @@
 # Changes
 
+# [2.1.1](https://github.com/prantlf/discard-shelf-action/compare/v2.1.0...v2.1.1) (2023-10-21)
+
+## Bug Fixes
+
+* Correct inputs for choosing the platfoms to discard ([5cc2e1d](https://github.com/prantlf/discard-shelf-action/commit/5cc2e1d6d878ff9e586c8961244d3b84e94a41aa))
+
 # [2.1.0](https://github.com/prantlf/discard-shelf-action/compare/v2.0.0...v2.1.0) (2023-10-21)
 
 ## Features
