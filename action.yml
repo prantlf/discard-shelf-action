@@ -40,16 +40,16 @@ runs:
       echo "name=$SO_NAME" >> $GITHUB_OUTPUT
   - name: Delete Linux archive from cache
     if: ${{ inputs.enable }}
-    uses: prantlf/delete-cache-action@v1
+    uses: prantlf/delete-cache-action@v2
     with:
       key: ${{ steps.setup-discard.outputs.name }}-linux-x64.zip-${{ github.sha }}
   - name: Delete macOS archive from cache
     if: ${{ inputs.enable }}
-    uses: prantlf/delete-cache-action@v1
+    uses: prantlf/delete-cache-action@v2
     with:
       key: ${{ steps.setup-discard.outputs.name }}-macos-x64.zip-${{ github.sha }}
   - name: Delete Windows archive from cache
     if: ${{ inputs.enable }}
-    uses: prantlf/delete-cache-action@v1
+    uses: prantlf/delete-cache-action@v2
     with:
       key: ${{ steps.setup-discard.outputs.name }}-windows-x64.zip-${{ github.sha }}
