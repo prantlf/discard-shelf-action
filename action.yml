@@ -14,6 +14,15 @@ inputs:
     description: >-
       Can be set to `false` to prevent this action from discarding the cache. It's helpful in the pipeline, which will not continue releasing, but only building and testing, and that will be decided in the middle of a job execution.
     default: true
+  include-linux:
+    description: Include the archive for Linux.
+    default: true
+  include-macos:
+    description: Include the archive for macOS.
+    default: true
+  include-windows:
+    description: Include the archive for Windows.
+    default: true
 
 runs:
   using: 'composite'
@@ -39,17 +48,17 @@ runs:
       fi
       echo "name=$SO_NAME" >> $GITHUB_OUTPUT
   - name: Delete Linux archive from cache
-    if: ${{ inputs.enable }}
+    if: ${{ inputs.enable && inputs.include-linux }}
     uses: prantlf/delete-cache-action@v2
     with:
       key: ${{ steps.setup-discard.outputs.name }}-linux-x64.zip-${{ github.sha }}
   - name: Delete macOS archive from cache
-    if: ${{ inputs.enable }}
+    if: ${{ inputs.enable && inputs.include-macos }}
     uses: prantlf/delete-cache-action@v2
     with:
       key: ${{ steps.setup-discard.outputs.name }}-macos-x64.zip-${{ github.sha }}
   - name: Delete Windows archive from cache
-    if: ${{ inputs.enable }}
+    if: ${{ inputs.enable && inputs.include-windows }}
     uses: prantlf/delete-cache-action@v2
     with:
       key: ${{ steps.setup-discard.outputs.name }}-windows-x64.zip-${{ github.sha }}
