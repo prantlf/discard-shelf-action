@@ -51,7 +51,7 @@ The name of the archive without the platform and architecture and without the `.
 Type: `String`<br>
 Default: `'main master'`
 
-Branches which this task should run for, which are used to publishing releases. Use whitespace for separating the branch names. If you want to use multiple lines in YAML, introduce them with ">-". If you want to allow all branches, set the value to "*".
+Branches which this action should run for, which are used to publishing releases. Use whitespace for separating the branch names. If you want to use multiple lines in YAML, introduce them with ">-". If you want to allow all branches, set the value to "*".
 
 ### enable
 
