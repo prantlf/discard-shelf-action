@@ -1,5 +1,15 @@
 # Changes
 
+# [3.0.0](https://github.com/prantlf/discard-shelf-action/compare/v2.1.1...v3.0.0) (2023-10-22)
+
+## Features
+
+* Run only in specified branches ([0442f58](https://github.com/prantlf/discard-shelf-action/commit/0442f58f3b9dcbdfe9fc5a2ba252d7e107d26acc))
+
+## BREAKING CHANGES
+
+If you used this action for branches `main` or `master`, your configuration will continue working, because those branches are enabled by default. If you used it for other branches, specify all their names in the input `branches`. If you used this action on all branches, set the input `branches` to `*`.
+
 # [2.1.1](https://github.com/prantlf/discard-shelf-action/compare/v2.1.0...v2.1.1) (2023-10-21)
 
 ## Bug Fixes
