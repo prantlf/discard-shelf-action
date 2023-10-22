@@ -22,7 +22,7 @@ Depending on the `name` of the executable, it will discard the cache with the fo
 
 The name prefix of the archives can be specified by `name`. If not specified, it will be inferred from the project configuration (`v.mod`). The `{sha}` in the cache key is the SHA-1 hash of the current commit.
 
-Use a different name prefix than the default in the package archive name:
+Use a different name prefix than the default in the package archive name and work only in specific release branches:
 
 ```yml
 jobs:
@@ -32,6 +32,7 @@ jobs:
     - uses: prantlf/discard-shelf-action@v3
       with:
         name: vpm
+        branches: master v1.x
 ```
 
 ## Inputs
