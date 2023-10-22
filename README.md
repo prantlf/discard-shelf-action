@@ -45,6 +45,13 @@ Default: (read from `v.mod`)
 
 The name of the archive without the platform and architecture and without the `.zip` extension. The project name from `v.mod` will be used by default. The expected names of the archives will be `{name}-{os}-{arch}.zip`, for example: `newchanges-linux-x64.zip`.
 
+### branches
+
+Type: `String`<br>
+Default: `'main master'`
+
+Branches which this task should run for, which are used to publishing releases. Use whitespace for separating the branch names. If you want to use multiple lines in YAML, introduce them with ">-". If you want to allow all branches, set the value to "*".
+
 ### enable
 
 Type: `Boolean`<br>

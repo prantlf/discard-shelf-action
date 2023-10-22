@@ -10,6 +10,10 @@ inputs:
   name:
     description: >-
       The name of the archive without the platform and architecture and without the `.zip` extension. The project name from `v.mod` will be used by default. The name of the archive will be `{name}-{os}-{arch}.zip`, for example: `newchanges-linux-x64.zip`.
+  branches:
+    description: >-
+      Branches which this task should run for, which are used to publishing releases. Use spaces for separating the branch names. If you want to use multiple lines in YAML, introduce them with ">-". If you want to allow all branches, set the value to "*".
+    default: main master
   enable:
     description: >-
       Can be set to `false` to prevent this action from discarding the cache. It's helpful in the pipeline, which will not continue releasing, but only building and testing, and that will be decided in the middle of a job execution.
@@ -27,38 +31,42 @@ inputs:
 runs:
   using: 'composite'
   steps:
-  - name: Check platform and architecture
-    if: ${{ inputs.enable && (runner.os != 'Linux' && runner.os != 'macOS' && runner.os != 'Windows' || runner.arch != 'X64') }}
-    env:
-      SO_PLAT: ${{ runner.os }}
-      SO_ARCH: ${{ inputs.sha256sum }}
-    shell: bash
-    run: |
-      echo "::error title=⛔ Unsupported platform or architecture: $SO_PLAT-$SO_ARCH error hint::Supported are Linux, macOS, Windows on X64"
-      exit 1
   - name: Setup parameters
-    if: ${{ inputs.enable }}
-    id: setup-discard
+    if: ${{ inputs.enable == 'true' }}
+    id: setup
     env:
-      SO_NAME: ${{ inputs.name }}
+      DS_NAME: ${{ inputs.name }}
+      DS_BRANCHES: ${{ inputs.branches }}
     shell: bash
     run: |
-      if [[ "$SO_NAME" == "" ]]; then
-        SO_NAME=$(node -e "console.log(/^.*name: *['\"]([^'\"]+)['\"].*$/mg.exec(require('fs').readFileSync('v.mod', 'utf8'))[1])")
+      if [[ "$DS_NAME" == "" ]]; then
+        DS_NAME=$(node -e "console.log(/^.*name: *['\"]([^'\"]+)['\"].*$/mg.exec(require('fs').readFileSync('v.mod', 'utf8'))[1])")
       fi
-      echo "name=$SO_NAME" >> $GITHUB_OUTPUT
+      echo "name=$DS_NAME" >> $GITHUB_OUTPUT
+      if [[ "$DS_BRANCHES" == "*" || " $DS_BRANCHES " == *" $GITHUB_REF_NAME "* ]]; then
+        echo "enable=true" >> $GITHUB_OUTPUT
+      fi
+  - name: Check platform and architecture
+    if: ${{ steps.setup.outputs.enable == 'true' && (runner.os != 'Linux' && runner.os != 'macOS' && runner.os != 'Windows' || runner.arch != 'X64') }}
+    env:
+      DS_PLAT: ${{ runner.os }}
+      DS_ARCH: ${{ runner.arch }}
+    shell: bash
+    run: |
+      echo "::error title=⛔ Unsupported platform or architecture: $DS_PLAT-$DS_ARCH error hint::Supported are Linux, macOS, Windows on X64"
+      exit 1
   - name: Delete Linux archive from cache
-    if: ${{ inputs.enable && inputs.include-linux == 'true' }}
+    if: ${{ steps.setup.outputs.enable == 'true' && inputs.include-linux == 'true' }}
     uses: prantlf/delete-cache-action@v2
     with:
-      key: ${{ steps.setup-discard.outputs.name }}-linux-x64.zip-${{ github.sha }}
+      key: ${{ steps.setup.outputs.name }}-linux-x64.zip-${{ github.sha }}
   - name: Delete macOS archive from cache
-    if: ${{ inputs.enable && inputs.include-macos == 'true' }}
+    if: ${{ steps.setup.outputs.enable == 'true' && inputs.include-macos == 'true' }}
     uses: prantlf/delete-cache-action@v2
     with:
-      key: ${{ steps.setup-discard.outputs.name }}-macos-x64.zip-${{ github.sha }}
+      key: ${{ steps.setup.outputs.name }}-macos-x64.zip-${{ github.sha }}
   - name: Delete Windows archive from cache
-    if: ${{ inputs.enable && inputs.include-windows == 'true' }}
+    if: ${{ steps.setup.outputs.enable == 'true' && inputs.include-windows == 'true' }}
     uses: prantlf/delete-cache-action@v2
     with:
-      key: ${{ steps.setup-discard.outputs.name }}-windows-x64.zip-${{ github.sha }}
+      key: ${{ steps.setup.outputs.name }}-windows-x64.zip-${{ github.sha }}
