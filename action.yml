@@ -1,4 +1,4 @@
-name: 'discard Build Output'
+name: 'Discard Build Output'
 description: 'GitHub action for discarding the cache with the build output, where it was shelved by shelve-output-action after a release.'
 author: prantlf
 
@@ -57,16 +57,16 @@ runs:
       exit 1
   - name: Delete Linux archive from cache
     if: ${{ steps.setup.outputs.enable == 'true' && inputs.include-linux == 'true' }}
-    uses: prantlf/delete-cache-action@v2
+    uses: prantlf/delete-cache-action@v3
     with:
       key: ${{ steps.setup.outputs.name }}-linux-x64.zip-${{ github.sha }}
   - name: Delete macOS archive from cache
     if: ${{ steps.setup.outputs.enable == 'true' && inputs.include-macos == 'true' }}
-    uses: prantlf/delete-cache-action@v2
+    uses: prantlf/delete-cache-action@v3
     with:
       key: ${{ steps.setup.outputs.name }}-macos-x64.zip-${{ github.sha }}
   - name: Delete Windows archive from cache
     if: ${{ steps.setup.outputs.enable == 'true' && inputs.include-windows == 'true' }}
-    uses: prantlf/delete-cache-action@v2
+    uses: prantlf/delete-cache-action@v3
     with:
       key: ${{ steps.setup.outputs.name }}-windows-x64.zip-${{ github.sha }}
