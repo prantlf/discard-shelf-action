@@ -16,7 +16,7 @@ jobs:
   prepare:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - run: |
         cp LICENSE LICENSE-linux-x64.zip
         cp LICENSE LICENSE-macos-x64.zip
@@ -25,27 +25,27 @@ jobs:
         cp README.md README-macos-x64.zip
         cp README.md README-windows-x64.zip
       shell: bash
-    - uses: actions/cache/save@v4
+    - uses: actions/cache/save@v6
       with:
         path: LICENSE-linux-x64.zip
         key: LICENSE-linux-x64.zip-${{ github.sha }}
-    - uses: actions/cache/save@v4
+    - uses: actions/cache/save@v6
       with:
         path: LICENSE-macos-x64.zip
         key: LICENSE-macos-x64.zip-${{ github.sha }}
-    - uses: actions/cache/save@v4
+    - uses: actions/cache/save@v6
       with:
         path: LICENSE-windows-x64.zip
         key: LICENSE-windows-x64.zip-${{ github.sha }}
-    - uses: actions/cache/save@v4
+    - uses: actions/cache/save@v6
       with:
         path: README-linux-x64.zip
         key: README-linux-x64.zip-${{ github.sha }}
-    - uses: actions/cache/save@v4
+    - uses: actions/cache/save@v6
       with:
         path: README-macos-x64.zip
         key: README-macos-x64.zip-${{ github.sha }}
-    - uses: actions/cache/save@v4
+    - uses: actions/cache/save@v6
       with:
         path: README-windows-x64.zip
         key: README-windows-x64.zip-${{ github.sha }}
@@ -55,21 +55,21 @@ jobs:
       - prepare
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - uses: ./
-    - uses: actions/cache/restore@v4
+    - uses: actions/cache/restore@v6
       with:
         path: LICENSE-linux-x64.zip
         key: LICENSE-linux-x64.zip-${{ github.sha }}
         fail-on-cache-miss: false
         enableCrossOsArchive: true
-    - uses: actions/cache/restore@v4
+    - uses: actions/cache/restore@v6
       with:
         path: LICENSE-macos-x64.zip
         key: LICENSE-macos-x64.zip-${{ github.sha }}
         fail-on-cache-miss: false
         enableCrossOsArchive: true
-    - uses: actions/cache/restore@v4
+    - uses: actions/cache/restore@v6
       with:
         path: LICENSE-windows-x64.zip
         key: LICENSE-windows-x64.zip-${{ github.sha }}
@@ -93,19 +93,19 @@ jobs:
       with:
         name: README
         include-windows: false
-    - uses: actions/cache/restore@v4
+    - uses: actions/cache/restore@v6
       with:
         path: README-linux-x64.zip
         key: README-linux-x64.zip-${{ github.sha }}
         fail-on-cache-miss: false
         enableCrossOsArchive: true
-    - uses: actions/cache/restore@v4
+    - uses: actions/cache/restore@v6
       with:
         path: README-macos-x64.zip
         key: README-macos-x64.zip-${{ github.sha }}
         fail-on-cache-miss: false
         enableCrossOsArchive: true
-    - uses: actions/cache/restore@v4
+    - uses: actions/cache/restore@v6
       with:
         path: README-windows-x64.zip
         key: README-windows-x64.zip-${{ github.sha }}
@@ -125,7 +125,7 @@ jobs:
           echo "README-windows-x64.zip does not exist"
           exit 1
         fi
-    - uses: prantlf/delete-cache-action@v3
+    - uses: prantlf/delete-cache-action@v4
       with:
         key: README-windows-x64.zip-${{ github.sha }}
     - uses: prantlf/publish-release-action@v1
