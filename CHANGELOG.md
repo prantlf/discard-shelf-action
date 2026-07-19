@@ -1,5 +1,15 @@
 # Changes
 
+# [5.0.0](https://github.com/prantlf/discard-shelf-action/compare/v4.0.0...v5.0.0) (2026-07-19)
+
+## Features
+
+* Upgrade dependencies ([227a597](https://github.com/prantlf/discard-shelf-action/commit/227a5974a3fee97d77169d2ffc38d64740138398))
+
+## BREAKING CHANGES
+
+GitHub actions which this action depends on were upgraded to their latest versions, which require Node.js 24 for running.
+
 # [4.0.0](https://github.com/prantlf/discard-shelf-action/compare/v3.0.0...v4.0.0) (2024-05-07)
 
 ## Bug Fixes
