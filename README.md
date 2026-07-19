@@ -9,7 +9,7 @@ Only platforms Linux, macOS, Windows on the architecture X64 are supported.
 Discards the cache with binary executables produced on each platform and shelved earlier:
 
 ```yml
-- uses: prantlf/discard-shelf-action@v3
+- uses: prantlf/discard-shelf-action@v5
 ```
 
 Depending on the `name` of the executable, it will discard the cache with the following cache keys. For example, for the name `newchanges`:
@@ -29,7 +29,7 @@ jobs:
   release:
     steps:
     ...
-    - uses: prantlf/discard-shelf-action@v3
+    - uses: prantlf/discard-shelf-action@v5
       with:
         name: vpm
         branches: master v1.x
