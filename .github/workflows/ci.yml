@@ -52,6 +52,7 @@ jobs:
   test:
     permissions:
       actions: write
+      contents: write
     needs:
       - prepare
     runs-on: ubuntu-latest
