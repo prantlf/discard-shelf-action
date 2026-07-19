@@ -35,6 +35,13 @@ jobs:
         branches: master v1.x
 ```
 
+**Attention**: Make sure that you grant the write permission for actions in the job or workflow, which uses this action:
+
+```yml
+permissions:
+  actions: write
+```
+
 ## Inputs
 
 The following parameters can be specified using the `with` object:

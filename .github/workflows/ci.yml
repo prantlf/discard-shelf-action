@@ -130,7 +130,7 @@ jobs:
     - uses: prantlf/delete-cache-action@v4
       with:
         key: README-windows-x64.zip-${{ github.sha }}
-    - uses: prantlf/publish-release-action@v1
+    - uses: prantlf/publish-release-action@v2
       with:
         no-bump: true
         no-archives: true
